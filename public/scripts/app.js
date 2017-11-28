@@ -9,115 +9,131 @@ var app = {
   options: ['One', 'Two']
 };
 
-var template = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    app.title
-  ),
-  React.createElement(
-    'p',
-    null,
-    app.subtitle
-  ),
-  React.createElement(
-    'p',
-    null,
-    app.options.length > 0 ? "Here are your options" : "No options"
-  ),
-  React.createElement(
-    'p',
-    null,
-    'Babel is actually pretty cool'
-  ),
-  React.createElement(
-    'p',
-    null,
-    'I am a p tag too'
-  )
-);
+var onResetOptions = function onResetOptions() {
+  app.options = [];
 
-var user = {
-  name: "Dawson Mortenson",
-  age: 22,
-  location: "PDX"
+  renderOptionsApp();
 };
 
-function getLocation(location) {
-  if (location) {
-    return React.createElement(
-      'p',
-      null,
-      'Location: ',
-      location
-    );
+var onFormSubmit = function onFormSubmit(e) {
+  e.preventDefault();
+
+  // Target the input named 'option' in the form
+  var option = e.target.elements.option.value;
+
+  // If it exists:
+  // 1) push to the options array
+  // 2) clear the input value in the form
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = '';
   }
-}
-
-var meTemplate = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    user.name ? user.name : 'Anonymous'
-  ),
-  React.createElement(
-    'p',
-    null,
-    'Age: ',
-    user.age
-  ),
-  getLocation(user.location)
-);
-
-var count = 0;
-
-var increaseCount = function increaseCount() {
-  count += 1;
-  renderCounterApp();
+  renderOptionsApp();
 };
-var decreaseCount = function decreaseCount() {
-  count -= 1;
-  renderCounterApp();
-};
-var resetCount = function resetCount() {
-  count = 0;
-  renderCounterApp();
-};
-
-var appRoot = document.getElementById('app');
-
-var renderCounterApp = function renderCounterApp() {
-  var templateTwo = React.createElement(
+var renderOptionsApp = function renderOptionsApp() {
+  var template = React.createElement(
     'div',
     null,
     React.createElement(
       'h1',
       null,
-      'Count: ',
-      count
+      app.title
+    ),
+    React.createElement(
+      'p',
+      null,
+      app.subtitle
+    ),
+    React.createElement(
+      'p',
+      null,
+      app.options.length > 0 ? "Here are your options" : "No options"
+    ),
+    React.createElement(
+      'p',
+      null,
+      app.options.length
+    ),
+    React.createElement(
+      'ol',
+      null,
+      app.options.map(function (option) {
+        return React.createElement(
+          'li',
+          { key: option },
+          option
+        );
+      })
     ),
     React.createElement(
       'button',
-      { onClick: increaseCount },
-      '+1'
+      { onClick: onResetOptions },
+      'Remove All'
     ),
     React.createElement(
-      'button',
-      { onClick: decreaseCount },
-      '-1'
-    ),
-    React.createElement(
-      'button',
-      { onClick: resetCount },
-      'reset'
+      'form',
+      { onSubmit: onFormSubmit },
+      React.createElement('input', { type: 'text', name: 'option' }),
+      React.createElement(
+        'button',
+        null,
+        'Add Option'
+      )
     )
   );
-
-  ReactDOM.render(templateTwo, appRoot);
+  ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+var appRoot = document.getElementById('app');
+renderOptionsApp();
+// Example meTemplate
+// const user = {
+//   name: "Dawson Mortenson",
+//   age: 22,
+//   location: "PDX"
+// }
+//
+// function getLocation(location) {
+//   if (location) {
+//     return <p>Location: {location}</p>;
+//   }
+// }
+//
+// const meTemplate = (
+//   <div>
+//     <h1>{user.name ? user.name : 'Anonymous'}</h1>
+//     <p>Age: {user.age}</p>
+//     {getLocation(user.location)}
+//   </div>
+// );
+
+// Counter Example
+// let count = 0;
+//
+// const increaseCount = () => {
+//   count += 1;
+//   renderCounterApp();
+// }
+// const decreaseCount = () => {
+//   count -= 1;
+//   renderCounterApp();
+// }
+// const resetCount = () => {
+//   count = 0;
+//   renderCounterApp();
+// }
+//
+// const renderCounterApp = () => {
+//   const templateTwo = (
+//     <div>
+//       <h1>Count: {count}</h1>
+//       <button onClick={increaseCount}>+1</button>
+//       <button onClick={decreaseCount}>-1</button>
+//       <button onClick={resetCount}>reset</button>
+//     </div>
+//   );
+//
+//   ReactDOM.render(templateTwo, appRoot);
+// }
+//
+// renderCounterApp();
