@@ -37,9 +37,7 @@ const renderOptionsApp = () => {
       <p>{app.options.length}</p>
       <ol>
         {
-          app.options.map((option) => {
-            return <li key={option}>{option}</li>
-          })
+          app.options.map((option) => <li key={option}>{option}</li>)
         }
       </ol>
       <button onClick={onResetOptions}>Remove All</button>
