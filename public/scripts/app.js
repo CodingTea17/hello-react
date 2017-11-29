@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -8,80 +8,199 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// OLD CLASSLESS & STATELESS
-// const app = {
-//   visable: false
-// }
-//
-// const onToggleVisibility = () => {
-//   app.visable = !app.visable;
-//   render();
-// }
-//
-// const render = () => {
-//   const visableApp = (
-//     <div>
-//       <h1>Visibility Toggle</h1>
-//       <p>{app.visable ? 'Surprise! I\'m visable!' : '' }</p>
-//       <button onClick={onToggleVisibility}>{app.visable ? 'Click to Hide' : 'Click to Show'}</button>
-//     </div>
-//   );
-//   ReactDOM.render(visableApp, document.getElementById('app'))
-// }
-//
-// render();
+// JSX - JavaScript XML
+console.log("App.js is running");
 
-var Visible = function (_React$Component) {
-  _inherits(Visible, _React$Component);
+var Counter = function (_React$Component) {
+  _inherits(Counter, _React$Component);
 
-  function Visible(props) {
-    _classCallCheck(this, Visible);
+  function Counter(props) {
+    _classCallCheck(this, Counter);
 
-    var _this = _possibleConstructorReturn(this, (Visible.__proto__ || Object.getPrototypeOf(Visible)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
 
-    _this.onToggleVisibility = _this.onToggleVisibility.bind(_this);
+    _this.handleAddOne = _this.handleAddOne.bind(_this);
+    _this.handleMinusOne = _this.handleMinusOne.bind(_this);
+    _this.handleReset = _this.handleReset.bind(_this);
     _this.state = {
-      visable: false
+      count: props.count
     };
     return _this;
   }
 
-  _createClass(Visible, [{
-    key: 'onToggleVisibility',
-    value: function onToggleVisibility() {
-      console.log("I click");
+  _createClass(Counter, [{
+    key: "handleAddOne",
+    value: function handleAddOne() {
       this.setState(function (prevState) {
         return {
-          visable: !prevState.visable
+          count: prevState.count + 1
         };
       });
     }
   }, {
-    key: 'render',
+    key: "handleMinusOne",
+    value: function handleMinusOne() {
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count - 1
+        };
+      });
+    }
+  }, {
+    key: "handleReset",
+    value: function handleReset() {
+      this.setState(function () {
+        return {
+          count: 0
+        };
+      });
+    }
+  }, {
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'h1',
+          "h1",
           null,
-          'Visibility Toggle'
+          "Count: ",
+          this.state.count
         ),
         React.createElement(
-          'p',
-          null,
-          this.state.visable ? 'Surprise! I\'m visable!' : ''
+          "button",
+          { onClick: this.handleAddOne },
+          "+1"
         ),
         React.createElement(
-          'button',
-          { onClick: this.onToggleVisibility },
-          this.state.visable ? 'Click to Hide' : 'Click to Show'
+          "button",
+          { onClick: this.handleMinusOne },
+          "-1"
+        ),
+        React.createElement(
+          "button",
+          { onClick: this.handleReset },
+          "Reset"
         )
       );
     }
   }]);
 
-  return Visible;
+  return Counter;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Visible, null), document.getElementById('app'));
+Counter.defaultProps = {
+  count: 0
+  // count={5} will set the initial count to 5
+};ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));
+// const app = {
+//   title: 'Indecision App',
+//   subtitle: 'It\'s raining',
+//   options: ['One', 'Two']
+// }
+//
+// const onResetOptions = () => {
+//   app.options = [];
+//
+//   renderOptionsApp();
+// }
+//
+// const onFormSubmit = (e) => {
+//   e.preventDefault();
+//
+//   // Target the input named 'option' in the form
+//   const option = e.target.elements.option.value;
+//
+//   // If it exists:
+//   // 1) push to the options array
+//   // 2) clear the input value in the form
+//   if (option) {
+//     app.options.push(option);
+//     e.target.elements.option.value = '';
+//   }
+//   renderOptionsApp();
+// }
+//
+// const onMakeDecision = () => {
+//   const randomNum = Math.floor(Math.random() * app.options.length)
+//   const option = app.options[randomNum];
+//   console.log("You should " + option);
+//   renderOptionsApp();
+// }
+//
+// const renderOptionsApp = () => {
+//   const template = (
+//     <div>
+//       <h1>{app.title}</h1>
+//       <p>{app.subtitle}</p>
+//       <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
+//       <p>{app.options.length}</p>
+//       <ol>
+//         {
+//           app.options.map((option) => <li key={option}>{option}</li>)
+//         }
+//       </ol>
+//       <button disabled={app.options.length === 0} onClick={onMakeDecision}>What Should I Do?</button>
+//       <button onClick={onResetOptions}>Remove All</button>
+//       <form onSubmit={onFormSubmit}>
+//         <input type="text" name="option"/>
+//         <button>Add Option</button>
+//       </form>
+//     </div>
+//   );
+//   ReactDOM.render(template, appRoot)
+// }
+//
+// const appRoot = document.getElementById('app');
+// renderOptionsApp();
+// Example meTemplate
+// const user = {
+//   name: "Dawson Mortenson",
+//   age: 22,
+//   location: "PDX"
+// }
+//
+// function getLocation(location) {
+//   if (location) {
+//     return <p>Location: {location}</p>;
+//   }
+// }
+//
+// const meTemplate = (
+//   <div>
+//     <h1>{user.name ? user.name : 'Anonymous'}</h1>
+//     <p>Age: {user.age}</p>
+//     {getLocation(user.location)}
+//   </div>
+// );
+
+// Counter Example
+// let count = 0;
+//
+// const increaseCount = () => {
+//   count += 1;
+//   renderCounterApp();
+// }
+// const decreaseCount = () => {
+//   count -= 1;
+//   renderCounterApp();
+// }
+// const resetCount = () => {
+//   count = 0;
+//   renderCounterApp();
+// }
+//
+// const renderCounterApp = () => {
+//   const templateTwo = (
+//     <div>
+//       <h1>Count: {count}</h1>
+//       <button onClick={increaseCount}>+1</button>
+//       <button onClick={decreaseCount}>-1</button>
+//       <button onClick={resetCount}>reset</button>
+//     </div>
+//   );
+//
+//   ReactDOM.render(templateTwo, appRoot);
+// }
+//
+// renderCounterApp();

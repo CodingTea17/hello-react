@@ -8,7 +8,7 @@ class Counter extends React.Component {
     this.handleMinusOne = this.handleMinusOne.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.state = {
-      count: 0
+      count: props.count
     }
   }
 
@@ -46,6 +46,10 @@ class Counter extends React.Component {
   }
 }
 
+Counter.defaultProps = {
+  count: 0
+}
+// count={5} will set the initial count to 5
 ReactDOM.render(<Counter />, document.getElementById('app'));
 // const app = {
 //   title: 'Indecision App',
