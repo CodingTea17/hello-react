@@ -23,12 +23,35 @@ var Counter = function (_React$Component) {
     _this.handleMinusOne = _this.handleMinusOne.bind(_this);
     _this.handleReset = _this.handleReset.bind(_this);
     _this.state = {
-      count: props.count
+      count: 0
     };
     return _this;
   }
 
   _createClass(Counter, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      try {
+        var json = localStorage.getItem("count");
+        var count = JSON.parse(json, 10);
+        if (!isNaN(count)) {
+          this.setState(function () {
+            return { count: count };
+          });
+        }
+      } catch (e) {
+        // Do nada
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevProps.count != this.state.count) {
+        var json = JSON.stringify(this.state.count);
+        localStorage.setItem("count", json);
+      }
+    }
+  }, {
     key: "handleAddOne",
     value: function handleAddOne() {
       this.setState(function (prevState) {
@@ -89,10 +112,10 @@ var Counter = function (_React$Component) {
   return Counter;
 }(React.Component);
 
-Counter.defaultProps = {
-  count: 0
-  // count={5} will set the initial count to 5
-};ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));
+// count={5} will set the initial count to 5
+
+
+ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));
 // const app = {
 //   title: 'Indecision App',
 //   subtitle: 'It\'s raining',
